@@ -9,10 +9,20 @@ function App() {
   //     queryKey: ['todos'],
   //     queryFn: () => wait(1000).then(() => fetch('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX').then(res => res.json()))
   //  })
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["thisKey"],
-    queryFn: () => wait(2000).then(() => "Hello"),
-  });
+  //we use useQuery with an object with two key feilds, queryKey: ['todos'] and queryFn: () => axios.get('https://jsonplaceholder.typicode.com/todos')
+  const { data, isLoading, error } = useQuery(
+    {
+      queryKey: ["ourKey"],
+      queryFn: () => wait(1000).then(() => "our data"),
+    }
+  );
+
+  console.log(useQuery(
+    {
+      queryKey: ["ourKey"],
+      queryFn: () => wait(1000).then(() => "our data"),
+    }
+  ));
 
   if (isLoading) return <h2>it is loading</h2>;
 
