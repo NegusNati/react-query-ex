@@ -3,38 +3,44 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+const retrivePosts = async () => {
+  const response = await axios.get(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+  return response.data;
+};
+
 
 function App() {
-  //  const {} = useQuery({
-  //     queryKey: ['todos'],
-  //     queryFn: () => wait(1000).then(() => fetch('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX').then(res => res.json()))
-  //  })
-  //we use useQuery with an object with two key feilds, queryKey: ['todos'] and queryFn: () => axios.get('https://jsonplaceholder.typicode.com/todos')
-  const { data, isLoading, error } = useQuery(
-    {
-      queryKey: ["ourKey"],
-      queryFn: () => wait(1000).then(() => "our data"),
-    }
+  const {
+    isLoading,
+    data: posts,
+    error
+  } = useQuery({
+    queryKey: ["posts"],
+    queryFn: retrivePosts,
+    refetchIntervalInBackground: 2000,
+    // refetchInterval: 1000,
+    
+  });
+
+  if (isLoading) return <div>It is Loading fam!</div>;
+  if(error) return <div>{error.message}</div>;
+
+  return (
+    <>
+      {" "}
+      {posts.map((item) => (
+        <li key={item.id}>{item.title}</li>
+      ))}
+    </> 
   );
-
-  console.log(useQuery(
-    {
-      queryKey: ["ourKey"],
-      queryFn: () => wait(1000).then(() => "our data"),
-    }
-  ));
-
-  if (isLoading) return <h2>it is loading</h2>;
-
-  if (error) {
-    return <h2>Something went wrong {error.message}</h2>;
-  }
-
-  return <h1>{data} </h1>;
 }
 
-function wait(duration) {
-  return new Promise((resolve) => setTimeout(resolve, duration));
-}
+// function wait(duration) {
+//   return new Promise((resolve) => setTimeout(resolve, duration));
+// }
 
 export default App;
