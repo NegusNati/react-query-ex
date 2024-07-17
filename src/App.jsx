@@ -11,32 +11,25 @@ const retrivePosts = async () => {
   );
   return response.data;
 };
-
-
-function App() {
-  const {
-    isLoading,
-    data: posts,
-    error
-  } = useQuery({
-    queryKey: ["posts"],
+export function DisplayPosts() {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["theePost"],
     queryFn: retrivePosts,
-    refetchIntervalInBackground: 2000,
-    // refetchInterval: 1000,
-    
   });
-
-  if (isLoading) return <div>It is Loading fam!</div>;
-  if(error) return <div>{error.message}</div>;
+  if (isLoading) return <div> Loading...</div>;
+  if (error) return <div> The Error is {error.message}</div>;
 
   return (
-    <>
-      {" "}
-      {posts.map((item) => (
+    <div>
+      {data.map((item) => (
         <li key={item.id}>{item.title}</li>
       ))}
-    </> 
+    </div>
   );
+}
+
+function App() {
+  return <DisplayPosts />;
 }
 
 // function wait(duration) {
