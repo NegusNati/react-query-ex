@@ -1,6 +1,6 @@
 # React Query
 
-##a simple excercise i used to learn React Query! 
+## a simple excercise i used to learn React Query! 
 you can try it too 
 
 
