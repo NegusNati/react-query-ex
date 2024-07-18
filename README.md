@@ -4,7 +4,7 @@
 
 
 ## A simple exercise  i used to learn React Query! 
-you can try it too
+you can learn react query too, try out the examples here...
 
 - Clone the repo
 ```
@@ -23,7 +23,7 @@ Then just look in your browser at `http://localhost:5173/`.
 
 Note:
 
-uncomment each component you want to see in App.jsx form start to bottom, for CRUD operations 
+uncomment each component you want to see in App.jsx form start to bottom, for CRUD operations.
 
 ```
 function App() {
@@ -101,24 +101,24 @@ const postMutation = useMutation({
 
 Example screens
 
-- `useQuery()` to **Read** the posts
+- `useQuery()` to **Read** the posts.
  <img src="https://github.com/user-attachments/assets/58aa934a-cc15-482d-9c9c-f3b7f7a5fdb4">
 
 
-- `useMutuation()` to **Create** a post
+- `useMutuation()` to **Create** a post.
  <img src="https://github.com/user-attachments/assets/7eb4c3e3-9011-4672-99cb-fa7a845399ec">
 
-- `postMutation.isPending` in pending state
+- `postMutation.isPending` in pending state.
  <img src="https://github.com/user-attachments/assets/da2a3880-1189-4257-827b-f80401226a7a">
 
- - `postMutation.isSuccess` after successis returned
+ - `postMutation.isSuccess` after successis returned.
  <img src="https://github.com/user-attachments/assets/870c07f2-20ef-4614-b60b-5c07258db3a4">
 
 
-- `useMutuation()` to **Update** a post, Before Update
+- `useMutuation()` to **Update** a post, Before Update.
  <img src="https://github.com/user-attachments/assets/0bfb5b1e-9e6e-414f-8929-faae75fc0550">
 
-- `useMutuation()` to **Update** a post, After Update
+- `useMutuation()` to **Update** a post, After Update.
  <img src="https://github.com/user-attachments/assets/f4d2e228-f903-4756-8ea2-5dbae3bd3db5">
 
 
@@ -137,7 +137,7 @@ Example screens
 
 
 
-Resources
+Resources :
 
 - [The Docs](https://tanstack.com/query/latest/docs/framework/react/guides/queries)
 - [Official Blog](https://tkdodo.eu/blog/practical-react-query)
