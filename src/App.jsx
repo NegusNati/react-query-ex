@@ -1,9 +1,10 @@
-import { useForm } from  "react-hook-form";
+import { useForm } from "react-hook-form";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { us } from "react";
 
 function wait(duration) {
   return new Promise((resolve) => setTimeout(resolve, duration));
@@ -46,6 +47,8 @@ export function DisplayPosts() {
 
   return (
     <div>
+      <h1>useQuery example</h1>
+      <h2>Posts </h2>
       {data.map((item) => (
         <li key={item.id}>{item.title}</li>
       ))}
@@ -53,16 +56,7 @@ export function DisplayPosts() {
   );
 }
 
-//useMutation ex=1
-const postMutation = useMutation({
-  mutationFn: async (newPost) => {
-    const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/posts",
-      newPost
-    );
-    return response.data;
-  },
-});
+//useMutation ex=1 for post operation
 
 export const AddPost = () => {
   const {
@@ -75,67 +69,100 @@ export const AddPost = () => {
       body: "",
     },
   });
+  const postMutation = useMutation({
+    mutationKey: ["newPost"],
+    mutationFn: async (newPost) => {
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        newPost
+      );
+      console.log(newPost);
+      return response.data;
+    },
+  });
 
   return (
-    <div>
-      <h2>Create Post</h2>
+    <div className=" ">
       <div>
-        <form onSubmit={handleSubmit((data) => postMutation.mutate(data))}>
-          <label htmlFor="title">Title</label>
-          <input
-            name="title"
-            {...register("title", { required: true })}
-            id="title"
-            placeholder="Enter title"
-          />
-          {errors.title && <p> {errors.title.message}</p>}
-          <label htmlFor="body">Body</label>
-          <textarea
-            name="body"
-            {...register("body", { required: true })}
-            id="body"
-            placeholder="Enter body"
-          />
-          {errors.body && <p> {errors.body.message}</p>}
-          <button type="submit">Add Post</button>
-        </form>
+        <h1>useMutation example</h1>
+        <h2 className="text-2xl p-4">Posts </h2>
+        <div className={" bg-stone-500 p-2 " + (postMutation.isIdle && " font-semibold ") + (postMutation.isSuccess&& " animate-pulse bg-green-400 ") + ( postMutation.isError && " animate-ping bg-red-400 ") + ( postMutation.isPending && " animate-bounce bg-yellow-400 ")} >
+          {postMutation.isIdle && (
+            <p>
+              Click the button to add a post: it is in idle state until you add
+              a post
+            </p>
+          )}
+          {postMutation.isPending && <p>Adding post...</p>}
+          {postMutation.isError && <p>Error adding post...</p>}
+          {postMutation.isSuccess && (
+            <p>Post added successfully : {postMutation.data.title}</p>
+          )}
+        </div>
       </div>
 
-      {/* <div className="form-control">
-        <label htmlFor="title">Title</label>
-        <input
-          {...register("title", { required: true })}
-          id="title"
-          type="text"
-          placeholder="Enter title"
-        />
-        {errors.title && <p>This field is required</p>}
+      <div className="flex flex-col gap-4 justify-start mt-8 pt-8 ">
+        <h2 className="text-2xl">Create a Post</h2>
+        <div className="  ">
+          <form
+            onSubmit={handleSubmit((data) => postMutation.mutate(data))}
+            className="flex flex-col gap-4"
+          >
+            <label htmlFor="title">Title</label>
+            <input
+              name="title"
+              {...register("title", { required: true })}
+              id="title"
+              placeholder="Enter title"
+              className="border-2 border-gray-300 p-2 rounded-md"
+            />
+            {errors.title && <p> {errors.title.message}</p>}
+            <label htmlFor="body">Body</label>
+            <textarea
+              name="body"
+              {...register("body", { required: true })}
+              id="body"
+              placeholder="Enter body"
+              className="border-2 border-gray-300 p-2 rounded-md"
+            />
+            {errors.body && <p> {errors.body.message}</p>}
+            <button type="submit">Add Post</button>
+          </form>
+        </div>
       </div>
-      <div className="form-control">
-        <label htmlFor="body">Body</label>
-        <textarea
-          {...register("body", { required: true })}
-          id="body"
-          type="text"
-          placeholder="Enter body"
-        />
-        {errors.body && <p>This field is required</p>}
-        <button
-          onClick={handleSubmit((data) => {
-            postMutation.mutate(data);
-          })}
-        >
-          Add Post
-        </button>
-      </div> */}
     </div>
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function App() {
   // return <TimeOutFetch />
   // return <DisplayPosts />;
-  <AddPost />;
+  return <AddPost />;
 }
 
 export default App;
