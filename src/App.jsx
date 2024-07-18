@@ -80,13 +80,21 @@ export const AddPost = () => {
       return response.data;
     },
   });
-  
+
   return (
     <div className=" ">
       <div>
         <h1>useMutation example 1: Create</h1>
         <h2 className="text-2xl p-4">Posts </h2>
-        <div className={" bg-stone-500 p-2 " + (postMutation.isIdle && " font-semibold ") + (postMutation.isSuccess&& " animate-pulse bg-green-400 ") + ( postMutation.isError && " animate-ping bg-red-400 ") + ( postMutation.isPending && " animate-bounce bg-yellow-400 ")} >
+        <div
+          className={
+            " bg-stone-500 p-2 " +
+            (postMutation.isIdle && " font-semibold ") +
+            (postMutation.isSuccess && " animate-pulse bg-green-400 ") +
+            (postMutation.isError && " animate-ping bg-red-400 ") +
+            (postMutation.isPending && " animate-bounce bg-yellow-400 ")
+          }
+        >
           {postMutation.isIdle && (
             <p>
               Click the button to add a post: it is in idle state until you add
@@ -134,7 +142,6 @@ export const AddPost = () => {
   );
 };
 
-
 //Update Post
 
 export const UpdatePost = () => {
@@ -148,6 +155,18 @@ export const UpdatePost = () => {
       body: "",
     },
   });
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["getPost"],
+    queryFn: async () => {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/posts/1"
+      );
+
+      return response.data;
+    },
+  });
+
   const postMutation = useMutation({
     mutationKey: ["updatedPost"],
     mutationFn: async (updatedPost) => {
@@ -165,12 +184,27 @@ export const UpdatePost = () => {
       <div>
         <h1>useMutation example 2 : Update</h1>
         <h2 className="text-2xl p-4">Posts </h2>
-        <div className={" bg-stone-500 p-2 " + (postMutation.isIdle && " font-semibold ") + (postMutation.isSuccess&& " animate-pulse bg-green-400 ") + ( postMutation.isError && " animate-ping bg-red-400 ") + ( postMutation.isPending && " animate-bounce bg-yellow-400 ")} >
+        <div
+          className={
+            " bg-stone-500 p-2 " +
+            (postMutation.isIdle && " font-semibold ") +
+            (postMutation.isSuccess && " animate-pulse bg-green-400 ") +
+            (postMutation.isError && " animate-ping bg-red-400 ") +
+            (postMutation.isPending && " animate-bounce bg-yellow-400 ")
+          }
+        >
           {postMutation.isIdle && (
-            <p>
-              Click the button to Update the post: it is in idle state until you add
-              a post
-            </p>
+            <div>
+              <p>
+                {" "}
+                Click the button to Update the post: it is in idle state until
+                you add a post
+              </p>
+              {isLoading && <p> Loading thee data...</p>}
+              {error && <p> Error {error.message}</p>}
+
+              <p>Data is : {data && data.title}</p>
+            </div>
           )}
           {postMutation.isPending && <p>Updateing post...</p>}
           {postMutation.isError && <p>Error Updateing post...</p>}
@@ -213,35 +247,86 @@ export const UpdatePost = () => {
   );
 };
 
+//Delete
 
+export const DeletePost = () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["postToDelete"],
+    // enabled: false,
 
+    queryFn: async () => {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/posts/1"
+      );
 
+      return response.data;
+    },
+  });
 
+  const postMutation = useMutation({
+    mutationKey: ["deletePost"],
 
+    mutationFn: async () => {
+      const response = await axios.delete(
+        "https://jsonplaceholder.typicode.com/posts/1"
+      );
+      // console.log( " in delete post mutation", response);
+      // data = response.data ? response.data : "Data value is null,Deleted successfully";
+      // console.log(data)
+      return response.data;
+    },
+  });
+  console.log(" ...  data ", postMutation.data);
+  //let  val =   postMutation.data != undefined ? postMutation.data : "Data value is null,Deleted successfully";
+  if (isLoading) return <p> Loading thee data...</p>;
+  if (error) return <p> Error {error.message}</p>;
+  return (
+    <div className=" ">
+      <div>
+        <h1>useMutation example 3 : Delete</h1>
+        <h2 className="text-2xl p-4">Post </h2>
+        <div
+          className={
+            " bg-stone-500 p-2 " +
+            (postMutation.isIdle && " font-semibold ") +
+            (postMutation.isSuccess && " animate-pulse bg-green-400 ") +
+            (postMutation.isError && " animate-ping bg-red-400 ") +
+            (postMutation.isPending && " animate-bounce bg-yellow-400 ")
+          }
+        >
+          <p>
+            {postMutation.data == undefined
+              ? data.title
+              : "Data value is null,Deleted successfully"}
+          </p>
+        </div>
+      </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <div className="flex flex-col gap-4 justify-start mt-8 pt-8 ">
+        <div className="  ">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              postMutation.mutate();
+            }}
+            className="flex flex-col gap-4"
+          >
+            <button type="submit">Delete Post ❌</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function App() {
+  // TODO: uncomment starting from TimeOutFetch to DeletePost one by one
+
   // return <TimeOutFetch />
   // return <DisplayPosts />;
   // return <AddPost />;
   return <UpdatePost />;
+  // return <DeletePost />;
 }
 
 export default App;
