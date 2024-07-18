@@ -1,7 +1,9 @@
 # React Query
+<img src="https://github.com/user-attachments/assets/ec8de22d-b28d-4562-a225-9ab03ffdb5dc">
 
 
-## a simple excercise i used to learn React Query! 
+
+## A simple exercise  i used to learn React Query! 
 you can try it too
 
 - Clone the repo
