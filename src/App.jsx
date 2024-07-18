@@ -311,7 +311,11 @@ export const DeletePost = () => {
             }}
             className="flex flex-col gap-4"
           >
-            <button type="submit">Delete Post ❌</button>
+            <button type="submit">
+              {postMutation.data == undefined
+                ? "Delete Post ❌"
+                : "Deleted successfully ✅"}
+            </button>
           </form>
         </div>
       </div>
@@ -325,8 +329,8 @@ function App() {
   // return <TimeOutFetch />
   // return <DisplayPosts />;
   // return <AddPost />;
-  return <UpdatePost />;
-  // return <DeletePost />;
+  // return <UpdatePost />;
+  return <DeletePost />;
 }
 
 export default App;
